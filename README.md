@@ -1,3 +1,5 @@
+This demo is referenced from https://github.com/milvus-io/bootcamp/tree/0.10.0/solutions/pic_search
+
 # 基于 Milvus 和 Xception 实现以图搜图
 
 ### **部署流程**
