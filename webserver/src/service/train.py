@@ -1,12 +1,14 @@
 import logging
 import time
+
 from common.config import DEFAULT_TABLE
 from common.const import default_cache_dir
+from diskcache import Cache
 # from common.config import DATA_PATH as database_path
 from encoder.encode import feature_extract
-from preprocessor.vggnet import VGGNet
-from diskcache import Cache
-from indexer.index import milvus_client, create_table, insert_vectors, delete_table, search_vectors, create_index,has_table
+from indexer.index import (create_index, create_table, delete_table, has_table,
+                           insert_vectors, milvus_client, search_vectors)
+from preprocessor.xception import XceptNet
 
 
 def do_train(table_name, database_path):
@@ -14,7 +16,7 @@ def do_train(table_name, database_path):
         table_name = DEFAULT_TABLE
     cache = Cache(default_cache_dir)
     try:
-        vectors, names = feature_extract(database_path, VGGNet())
+        vectors, names = feature_extract(database_path, XceptNet())
         index_client = milvus_client()
         # delete_table(index_client, table_name=table_name)
         # time.sleep(1)
@@ -33,5 +35,3 @@ def do_train(table_name, database_path):
     except Exception as e:
         logging.error(e)
         return "Error with {}".format(e)
-
-

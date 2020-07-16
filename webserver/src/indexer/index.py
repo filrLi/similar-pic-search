@@ -1,6 +1,7 @@
 import logging as log
-from milvus import Milvus, IndexType, MetricType, Status
+
 from common.config import MILVUS_HOST, MILVUS_PORT, VECTOR_DIMENSION
+from milvus import IndexType, MetricType, Milvus, Status
 
 
 def milvus_client():
@@ -17,7 +18,7 @@ def create_table(client, table_name=None, dimension=VECTOR_DIMENSION,
     table_param = {
         'collection_name': table_name,
         'dimension': dimension,
-        'index_file_size':index_file_size,
+        'index_file_size': index_file_size,
         'metric_type': metric_type
     }
     try:
@@ -32,7 +33,8 @@ def insert_vectors(client, table_name, vectors):
         log.error("collection %s not exist", table_name)
         return
     try:
-        status, ids = client.insert(collection_name=table_name, records=vectors)
+        status, ids = client.insert(
+            collection_name=table_name, records=vectors)
         return status, ids
     except Exception as e:
         log.error(e)
@@ -53,7 +55,8 @@ def delete_table(client, table_name):
 
 def search_vectors(client, table_name, vectors, top_k):
     search_param = {'nprobe': 16}
-    status, res = client.search(collection_name=table_name, query_records=vectors, top_k=top_k, params=search_param)
+    status, res = client.search(
+        collection_name=table_name, query_records=vectors, top_k=top_k, params=search_param)
     return status, res
 
 

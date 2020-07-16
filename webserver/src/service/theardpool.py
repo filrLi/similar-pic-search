@@ -1,5 +1,6 @@
 import threading
 from concurrent.futures import ThreadPoolExecutor
+
 from service.train import do_train
 
 
